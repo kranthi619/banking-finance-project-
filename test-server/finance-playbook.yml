@@ -1,0 +1,16 @@
+- name : Configure Docker on test-server Instances
+  hosts : all
+  become: true
+  connection : ssh
+  tasks : 
+  - name: Updating yum
+    command : sudo yum update
+
+  - name : Install Docker
+    command : sudo yum install docker -y
+
+  - name : Start Docker Service
+    command : sudo systemctl start docker
+
+  - name : Run the Bank application
+    command: sudo docker run -itd -p 8084:8081 prafullla/bankingapp:latest
