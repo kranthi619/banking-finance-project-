@@ -81,6 +81,7 @@ environment {
      stage('Terraform apply'){
         steps {
             sh 'terraform apply -auto-approve'
+		sleep 10
               } 
 	   }
    }
