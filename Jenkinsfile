@@ -15,7 +15,7 @@ environment {
      stage('checkout'){
        steps {
          echo 'checkout the code from GitRepo'
-          git 'https://github.com/prafullashilimkar/star-agile-banking-finance.git'
+          git 'https://github.com/kranthi619/star-agile-banking-finance.git'
                     }
             }
    
