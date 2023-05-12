@@ -26,6 +26,7 @@ resource "aws_instance" "insur-proj" {
   }
   provisioner "remote-exec" {
     inline = [
+       "chmod 400 /home/ubuntu/star-agile-banking-finance-project-babu/test-server/bank-pro.pem",
       "ansible-playbook /home/ubuntu/star-agile-banking-finance-project-babu/test-server/finance-playbook.yml"
     ]
   }
