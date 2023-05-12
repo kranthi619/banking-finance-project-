@@ -42,12 +42,10 @@ pipeline {
     
     stage('Create infrastructure with terraform') {
       steps {
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-          sh 'sudo chmod 600 test-server'
+          sh 'sudo chmod 600 inventory'
           sh 'terraform init'
           sh 'terraform validate'
           sh 'terraform apply --auto-approve'
-        }
       }
     }
   }
