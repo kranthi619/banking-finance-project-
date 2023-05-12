@@ -48,7 +48,7 @@ pipeline {
 
     stage('Create infrastructure with terraform') {
       steps {
-        sh 'chmod 600 pu-up.ppk'
+        sh 'sudo chmod 600 inventory'
         sh 'terraform init'
         sh 'terraform validate'
         sh 'terraform apply --auto-approve'
