@@ -45,14 +45,16 @@ pipeline {
         sh 'docker push kranthi619/insure-me:latest'
       }
     }
-
-    stage('Create infrastructure with terraform') {
-      steps {
-        sh 'sudo chmod 600 ${WORKSPACE}/bank-pro'
-        sh 'terraform init'
-        sh 'terraform validate'
-        sh 'terraform apply --auto-approve'
-      }
+  stages {
+        stage('Create infrastructure with terraform') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AKIA3TGRI6WEPQWGGO7X', credentialsId: 'aws-credentials', secretKeyVariable: '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']]) {
+                    sh 'terraform init'
+                    sh 'terraform validate'
+                    sh 'terraform apply --auto-approve'
+                }
+            }
+        }
     }
-  }
 }
+   
