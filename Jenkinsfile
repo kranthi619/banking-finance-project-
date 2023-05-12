@@ -42,7 +42,7 @@ pipeline {
 
     stage('Push Image to DockerHub') {
       steps {
-        sh 'docker push kranthi619/insurence-me:latest'
+        sh 'docker push kranthi619/insure-me:latest'
       }
     }
 
