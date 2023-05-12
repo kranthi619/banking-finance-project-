@@ -1,15 +1,3 @@
-resource "aws_security_group" "ec2group123" {
-  name_prefix = "ec2group123-"
-  vpc_id      = "vpc-06c5a53d1e3aa7669"
-
-  ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 resource "aws_instance" "insur-proj" {
   ami = "ami-02eb7a4783e7e9317"
   instance_type = "t2.medium"
@@ -19,9 +7,16 @@ resource "aws_instance" "insur-proj" {
   tags = {
     name = "ansible_instance"
   }
+  connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    private_key = file("~/.ssh/pu-ub.ppk")
+    host     = self.public_ip
+  }
   provisioner "remote-exec" {
     inline = [
       "ansible-playbook bankdeployplaybook.yml"
     ]
   }
 }
+
