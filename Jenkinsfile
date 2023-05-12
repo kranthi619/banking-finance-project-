@@ -3,9 +3,8 @@ pipeline {
 
   tools {
     maven 'M2_HOME'
-    terraform 'terraform'
     }
-
+  
   stages {
     stage('CheckOut') {
       steps {
@@ -13,17 +12,17 @@ pipeline {
         git 'https://github.com/kranthi619/star-agile-banking-finance-project-babu.git'
             }
     }
-
+    
     stage('Package the Application') {
       steps {
         echo " Packaing the Application"
         sh 'mvn clean package'
             }
     }
-
+    
     stage('Publish Reports using HTML') {
       steps {
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/insurence-project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/insurence-project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true]) 
          }
        }
 
@@ -31,18 +30,18 @@ pipeline {
        steps {
          sh 'docker build -t kranthi619/insure-me:latest .'
              }
-       }
+       } 
       stage('Docker Login') {
        steps {
-         withCredentials([usernamePassword(credentialsId: 'Docker-Hub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+         withCredentials([usernamePassword(credentialsId: 'Docker-Hub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {         
          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-   }
+   }  
              }
          }
 
      stage('Push Image to DockerHub') {
        steps {
-         sh 'docker push kranthi619/insure-me:latest'
+         sh 'docker push kranthi619/insurence-me:latest'
             }
         }
      stage(Create infrastructure with terraform) {
