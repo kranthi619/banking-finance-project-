@@ -10,7 +10,7 @@ resource "aws_security_group" "ec2group123" {
   }
 }
 
-resource "aws_instance" "production-server" {
+resource "aws_instance" "insur-proj" {
   ami = "ami-02eb7a4783e7e9317"
   instance_type = "t2.medium"
   availability_zone = "ap-south-1a"
