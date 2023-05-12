@@ -15,7 +15,7 @@ pipeline {
     
     stage('Package the Application') {
       steps {
-        echo " Packaing the Application"
+        echo "Packaging the Application"
         sh 'mvn clean package'
       }
     }
@@ -40,21 +40,22 @@ pipeline {
       }
     }
 
+    stage('Create infrastructure with terraform') {
+      steps {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AKIA3TGRI6WEPQWGGO7X', credentialsId: 'aws-credentials', secretKeyVariable: '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']]) {
+          sh 'sudo chmod 600 ${WORKSPACE}/bank-pro'
+          sh 'terraform init'
+          sh 'terraform validate'
+          sh 'terraform apply --auto-approve'
+        }
+      }
+    }
+
     stage('Push Image to DockerHub') {
       steps {
         sh 'docker push kranthi619/insure-me:latest'
       }
     }
-  stages {
-        stage('Create infrastructure with terraform') {
-            steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AKIA3TGRI6WEPQWGGO7X', credentialsId: 'aws-credentials', secretKeyVariable: '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']]) {
-                    sh 'terraform init'
-                    sh 'terraform validate'
-                    sh 'terraform apply --auto-approve'
-                }
-            }
-        }
-    }
+  }
 }
-   
+  
