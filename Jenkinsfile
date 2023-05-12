@@ -3,14 +3,14 @@ pipeline {
 
   tools {
     maven 'M2_HOME'
-	  terraform 'terraform'
+    terraform 'terraform'
     }
 
   stages {
     stage('CheckOut') {
       steps {
         echo 'Checkout the source code from GitHub'
-        git 'https://github.com/kranthi619/insurenceProject.git'
+        git 'https://github.com/kranthi619/star-agile-banking-finance-project-babu.git'
             }
     }
 
@@ -29,7 +29,7 @@ pipeline {
 
      stage('Docker Image Creation') {
        steps {
-         sh 'docker build -t kranthi619/insurence-project:latest .'
+         sh 'docker build -t kranthi619/insure-me:latest .'
              }
        }
       stage('Docker Login') {
@@ -42,13 +42,15 @@ pipeline {
 
      stage('Push Image to DockerHub') {
        steps {
-         sh 'docker push kranthi619/insurence-project:latest'
+         sh 'docker push kranthi619/insure-me:latest'
             }
         }
-
-     stage('Deploy Aplication Ansible') {
+     stage(Create infrastructure with terraform) {
        steps {
-         ansiblePlaybook credentialsId: 'privatekey', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deploy.yml'
+          sh 'sudo chmod 600 pu-up.ppk'
+          sh 'terraform init'
+          sh 'terraform validate'
+          sh 'terraform apply --auto-approve'
           }
        }
     }
