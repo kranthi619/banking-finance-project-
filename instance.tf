@@ -15,7 +15,7 @@ resource "aws_instance" "production-server" {
   instance_type = "t2.medium"
   availability_zone = "ap-south-1a"
   vpc_security_group_ids = [aws_security_group.ec2group123.id]
-  key_name = "pu-ub.ppk"
+  key_name = "pu-ub"
   tags = {
     name = "ansible_instance"
   }
