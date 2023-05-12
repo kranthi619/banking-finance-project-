@@ -1,24 +1,28 @@
-resource "aws_instance" "test-server" {
-  ami           = "ami-007855ac798b5175e" 
-  instance_type = "ubuntu" 
-  key_name = "jenkinskey1"
-  vpc_security_group_ids= ["sg-037d13c0e728afaeb"]
-  connection {
-    type     = "ssh"
-    user     = "ubuntu"
-    private_key = file("./jenkinskey1.pem")
-    host     = self.public_ip
-  }
-  provisioner "remote-exec" {
-    inline = [ "echo 'wait to start instance' "]
-  }
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "my-server" {
+  ami           = "ami-02eb7a4783e7e9317"
+  instance_type = "t2.medium"
+  vpc_security_group_ids = ["sg-0b6d460909f544b8b"]
+
   tags = {
-    Name = "test-server"
+    Name = "my-server"
   }
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("pu-ub.ppk")
+    host        = self.public_ip
+  }
+
   provisioner "local-exec" {
-        command = " echo ${aws_instance.test-server.public_ip} > inventory "
+    command = "echo ${aws_instance.my-server.public_ip} > inventory"
   }
-   provisioner "local-exec" {
-  command = "ansible-playbook /var/lib/jenkins/workspace/<Replace-jenkins-project-name>/test-server/finance-playbook.yml "
-  } 
+
+  provisioner "local-exec" {
+    command = "ansible-playbook /var/lib/jenkins/workspace/banking-proj/my-server/finance-playbook.yml"
+  }
 }
