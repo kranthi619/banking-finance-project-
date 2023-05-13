@@ -43,7 +43,8 @@ pipeline {
     
     stage('Create infrastructure with terraform') {
       steps {
-          sh 'sudo chmod 600 exampl.pem'
+         dir('star-agile-banking-finance-project-babu/test-server/exampl.pem') {
+          sh 'sudo chmod 400 exampl.pem'
           sh 'terraform init'
           sh 'terraform validate'
           sh 'terraform apply --auto-approve'
