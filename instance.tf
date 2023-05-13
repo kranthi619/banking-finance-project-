@@ -21,7 +21,7 @@ resource "aws_instance" "insur-proj" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("/test-server/bank-pro.pem")
+    private_key = file("/home/ubuntu/star-agile-banking-finance-project-babu/test-server/bank-pro.pem")
     host        = self.public_ip
   }
   provisioner "remote-exec" {
