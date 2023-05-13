@@ -1,13 +1,13 @@
 resource "aws_instance" "bank-pro" {
   ami                    = "ami-02eb7a4783e7e9317"
   instance_type          = "t2.micro"
-  key_name               = "sample" 
+  key_name               = "exampl" 
   vpc_security_group_ids = ["sg-0888c23f07272012c"]
 
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("./sample.pub") 
+    private_key = file("./exampl.pem") 
     host        = self.public_ip
   }
 
