@@ -1,4 +1,4 @@
-resource "aws_instance" "bank-pro" {
+resource "aws_instance" "ansible_instance" {
   ami                    = "ami-02eb7a4783e7e9317"
   instance_type          = "t2.micro"
   key_name               = "exampl" 
@@ -20,7 +20,7 @@ resource "aws_instance" "bank-pro" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${aws_instance.insur-proj.public_ip} > inventory"
+    command = "echo ${aws_instance.ansible_instance.public_ip} > inventory"
   }
 
   provisioner "local-exec" {
