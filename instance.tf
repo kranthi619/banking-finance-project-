@@ -21,7 +21,7 @@ resource "aws_instance" "insur-proj" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("/test-server/bank-pro.pem")
+    private_key = file("/test-server/pu-ub.ppk")
     host        = self.public_ip
   }
   provisioner "remote-exec" {
