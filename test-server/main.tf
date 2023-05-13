@@ -16,7 +16,7 @@ resource "aws_instance" "bank-pro" {
   }
 
   tags = {
-    Name = "test-server"
+    Name = "ansible_instance"
   }
 
   provisioner "local-exec" {
