@@ -7,7 +7,7 @@ resource "aws_instance" "test-server" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("./example.pem") 
+    private_key = file("./exampl.pem") 
     host        = self.public_ip
   }
 
