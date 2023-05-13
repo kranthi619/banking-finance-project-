@@ -18,13 +18,18 @@ resource "aws_instance" "ins-deploy-ansible" {
   tags = {
     Name = "ansible_instance"
   }
+}
+
+resource "null_resource" "ansible_inventory" {
+  depends_on = [
+    aws_instance.ins-deploy-ansible
+  ]
 
   provisioner "local-exec" {
-    command = "echo ${aws_instance.ansible_instance.public_ip} > inventory"
+    command = "echo ${aws_instance.ins-deploy-ansible.public_ip} > inventory"
   }
 
   provisioner "local-exec" {
     command = "ansible-playbook /var/lib/jenkins/workspace/bank-pro/test-server/finance-playbook.yml"
   }
 }
-
