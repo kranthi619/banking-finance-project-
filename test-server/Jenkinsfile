@@ -36,7 +36,7 @@ pipeline {
 
     stage('Create infrastructure with terraform') {
       steps {
-          dir('var/lib/jenkins/workspace/bank-pro/test-server') {
+          dir('test-server') {
             sh 'terraform init'
             sh 'terraform validate'
             sh 'terraform apply --auto-approve'
