@@ -1,4 +1,4 @@
-resource "aws_instance" "ins-deploy-ansible" {
+resource "aws_instance" "ins-deploy-ansible-champ" {
   ami                    = "ami-02eb7a4783e7e9317"
   instance_type          = "t2.micro"
   availability_zone      = "ap-south-1a"
