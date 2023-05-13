@@ -36,7 +36,7 @@ pipeline {
 
     stage('Create infrastructure with terraform') {
       steps {
-          dir('star-agile-banking-finance-project-babu/test-server/exampl.pem') {
+          dir('var/lib/jenkins/workspace/bank-pro/test-server') {
             sh 'terraform init'
             sh 'terraform validate'
             sh 'terraform apply --auto-approve'
