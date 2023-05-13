@@ -1,4 +1,4 @@
-resource "aws_instance" "insur-proj" {
+resource "aws_instance" "ansible_instance" {
   ami                    = "ami-02eb7a4783e7e9317"
   instance_type          = "t2.micro"
   availability_zone      = "ap-south-1a"
