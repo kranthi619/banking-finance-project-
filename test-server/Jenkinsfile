@@ -42,7 +42,7 @@ pipeline {
     stage('Create infrastructure with terraform') {
       steps {
         dir('test-server') {
-          sh 'sudo chmod 600 sample.pub'
+          sh 'sudo chmod 600 sample.pem'
           sh 'terraform init'
           sh 'terraform validate'
           sh 'terraform apply --auto-approve'
