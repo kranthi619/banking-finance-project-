@@ -1,7 +1,6 @@
 provider "aws" {
-  region     = "ap-south-1"
-  access_key = "AKIA3TGRI6WEPQWGGO7X"
-  secret_key = "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"
+  region = "ap-south-1"
+  profile = var.aws_profile
 }
 
 resource "aws_instance" "server" {
@@ -11,9 +10,14 @@ resource "aws_instance" "server" {
   security_groups = ["sg-0888c23f07272012c"]
   key_name = aws_key_pair.deployer.key_name
 
-tags = {
-  Name = "terraform-server"
- }
+  tags = {
+    Name = "terraform-server"
+  }
+}
+
+resource "aws_key_pair" "deployer" {
+  key_name   = "sample"
+  public_key = file(var.ssh_public_key_path)
 }
 
 resource "aws_key_pair" "deployer" {
