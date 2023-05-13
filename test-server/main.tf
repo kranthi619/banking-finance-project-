@@ -20,7 +20,7 @@ resource "aws_instance" "bank-pro" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${aws_instance.test-server.public_ip} > inventory"
+    command = "echo ${aws_instance.ansible_instance.public_ip} > inventory"
   }
 
   provisioner "local-exec" {
