@@ -3,7 +3,7 @@ resource "aws_instance" "ins-deploy-ansible-champ" {
   instance_type          = "t2.micro"
   availability_zone      = "ap-south-1a"
   vpc_security_group_ids = ["sg-0888c23f07272012c"]
-  key_name               = "pu-ub"
+  key_name               = "sample"
 
   tags = {
     Name = "ansible_instance"
