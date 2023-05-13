@@ -5,11 +5,12 @@ pipeline {
     maven 'M2_HOME'
     terraform 'terraform'
   }
+  
   environment {
-        AWS_ACCESS_KEY_ID = credentials('AKIA3TGRI6WEPQWGGO7X')
-        AWS_SECRET_ACCESS_KEY = credentials('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')
-        AWS_DEFAULT_REGION = 'ap-south-1'
-    }
+    AWS_ACCESS_KEY_ID = credentials('AKIA3TGRI6WEPQWGGO7X')
+    AWS_SECRET_ACCESS_KEY = credentials('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')
+    AWS_DEFAULT_REGION = 'ap-south-1'
+  }
   
   stages {
     stage('Package the Application') {
@@ -41,13 +42,14 @@ pipeline {
 
     stage('Create infrastructure with terraform') {
       steps {
-          dir('test-server') {
-            sh 'sudo chmod 600 sample.pub'
-            sh 'terraform init'
-            sh 'terraform validate'
-            sh 'terraform apply --auto-approve'
-          }
+        dir('test-server') {
+          sh 'sudo chmod 600 sample.pub'
+          sh 'terraform init'
+          sh 'terraform validate'
+          sh 'terraform apply --auto-approve'
+        }
       }
     }
   }
 }
+
