@@ -1,4 +1,4 @@
-resource "aws_instance" "test-server" {
+resource "aws_instance" "bank-pro" {
   ami                    = "ami-02eb7a4783e7e9317"
   instance_type          = "t2.micro"
   key_name               = "sample" 
