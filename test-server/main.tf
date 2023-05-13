@@ -1,13 +1,13 @@
 resource "aws_instance" "test-server" {
   ami                    = "ami-02eb7a4783e7e9317"
   instance_type          = "t2.micro"
-  key_name               = "example" 
+  key_name               = "sample" 
   vpc_security_group_ids = ["sg-0888c23f07272012c"]
 
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("./exampl.pem") 
+    private_key = file("./sample.pub") 
     host        = self.public_ip
   }
 
