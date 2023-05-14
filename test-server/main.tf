@@ -1,6 +1,7 @@
-# Configure the AWS provider
 provider "aws" {
-  region = "ap-south-1"
+  region     = "ap-south-1"
+  access_key = "AKIA3TGRI6WEC65Y4YXB"
+  secret_key = "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"
 }
 
 # Create a security group
