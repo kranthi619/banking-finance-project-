@@ -45,3 +45,12 @@ resource "aws_instance" "myFirstInstance" {
   tags= {
     Name = var.tag_name
   }
+}
+  
+  resource "aws_eip" "myFirstInstance" {
+  vpc      = true # Set to true if you're using a VPC
+  tags = {
+    Name = "my-elastic_ip"
+  }
+}
+
