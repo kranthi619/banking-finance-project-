@@ -31,7 +31,7 @@ resource "aws_security_group" "myFirstSecurityGroup" {
   }
 
   tags = {
-    Name = var.security_group
+    Name = aws_security_group.myFirstSecurityGroup.name
   }
 }
 
@@ -39,11 +39,11 @@ resource "aws_security_group" "myFirstSecurityGroup" {
 resource "aws_instance" "myFirstInstance" {
   ami           = "ami-02eb7a4783e7e9317"
   key_name      = "terra-key"
-  instance_type = t2.micro
-  vpc_security_group_ids = ["sg-0888c23f07272012c"]
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.myFirstSecurityGroup.id]
 
   tags = {
-    Name = terra
+    Name = "terra"
   }
 }
 
@@ -54,4 +54,5 @@ resource "aws_eip" "myFirstEip" {
     Name = "my-elastic-ip"
   }
 }
+
 
