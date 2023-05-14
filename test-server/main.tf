@@ -1,29 +1,47 @@
-variable "aws_region" {
-  description = "The AWS region to create things in."
-  default     = "ap-south-1"
+provider "aws" {
+  region     = "ap-south-1"
+  access_key = "AKIA3TGRI6WEPQWGGO7X"
+  secret_key = "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"
 }
 
-variable "key_name" {
-  description = " SSH keys to connect to ec2 instance"
-  default     =  "terra"
+#Create security group with firewall rules
+resource "aws_security_group" "my_security_group" {
+  name        = var.launch-wizard-62
+  description = "security group for Ec2 instance"
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+ ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+ # outbound from jenkis server
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags= {
+    Name = var.security_group
+  }
 }
 
-variable "instance_type" {
-  description = "instance type for ec2"
-  default     =  "t2.micro"
-}
-
-variable "security_group" {
-  description = "Name of security group"
-  default     = "launch-wizard-62"
-}
-
-variable "tag_name" {
-  description = "Tag Name of for Ec2 instance"
-  default     = "my-terraform-instace"
-}
-
-variable "ami_id" {
-  description = "AMI for Amazon Ami2 Ec2 instance"
-  default     = "ami-02eb7a4783e7e9317"
-}
+# Create AWS ec2 instance
+resource "aws_instance" "myFirstInstance" {
+  ami           = var.ami_id
+  key_name = var.key_name
+  instance_type = var.instance_type
+  security_groups= [var.security_group]
+  tags= {
+    Name = var.tag_name
+  }
