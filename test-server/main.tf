@@ -37,13 +37,13 @@ resource "aws_security_group" "myFirstSecurityGroup" {
 
 # Create an AWS EC2 instance
 resource "aws_instance" "myFirstInstance" {
-  ami           = var.ami_id
-  key_name      = var.key_name
-  instance_type = var.instance_type
-  vpc_security_group_ids = [aws_security_group.myFirstSecurityGroup.id]
+  ami           = "ami-02eb7a4783e7e9317"
+  key_name      = "terra-key"
+  instance_type = t2.micro
+  vpc_security_group_ids = ["sg-0888c23f07272012c"]
 
   tags = {
-    Name = var.tag_name
+    Name = terra
   }
 }
 
