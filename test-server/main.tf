@@ -29,10 +29,6 @@ resource "aws_security_group" "myFirstSecurityGroup" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name = aws_security_group.myFirstSecurityGroup.name
-  }
 }
 
 # Create an AWS EC2 instance
