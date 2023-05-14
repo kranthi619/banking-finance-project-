@@ -1,13 +1,12 @@
+# Configure the AWS provider
 provider "aws" {
-  region     = "ap-south-1"
-  access_key = "AKIA3TGRI6WEPQWGGO7X"
-  secret_key = "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"
+  region = "ap-south-1"
 }
 
-#Create security group with firewall rules
-resource "aws_security_group" "my_security_group" {
-  name        = var.launch-wizard-62
-  description = "security group for Ec2 instance"
+# Create a security group
+resource "aws_security_group" "myFirstSecurityGroup" {
+  name_prefix = "my-first-security-group-"
+  description = "security group for EC2 instance"
 
   ingress {
     from_port   = 8080
@@ -16,14 +15,13 @@ resource "aws_security_group" "my_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
- ingress {
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
- # outbound from jenkis server
   egress {
     from_port   = 0
     to_port     = 65535
@@ -31,26 +29,28 @@ resource "aws_security_group" "my_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags= {
+  tags = {
     Name = var.security_group
   }
 }
 
-# Create AWS ec2 instance
+# Create an AWS EC2 instance
 resource "aws_instance" "myFirstInstance" {
   ami           = var.ami_id
-  key_name = var.key_name
+  key_name      = var.key_name
   instance_type = var.instance_type
-  security_groups= [var.security_group]
-  tags= {
+  vpc_security_group_ids = [aws_security_group.myFirstSecurityGroup.id]
+
+  tags = {
     Name = var.tag_name
   }
 }
-  
-  resource "aws_eip" "myFirstInstance" {
-  vpc      = true # Set to true if you're using a VPC
+
+# Allocate an Elastic IP address
+resource "aws_eip" "myFirstEip" {
+  vpc  = true
   tags = {
-    Name = "my-elastic_ip"
+    Name = "my-elastic-ip"
   }
 }
 
