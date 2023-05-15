@@ -32,7 +32,7 @@ resource "aws_security_group" "myFirstSecurityGroup" {
 }
 
 # Create an AWS EC2 instance
-resource "aws_instance" "myInstance" {
+resource "aws_instance.myInstance" {
   ami           = "ami-02eb7a4783e7e9317"
   key_name      = "exampl"
   instance_type = "t2.micro"
