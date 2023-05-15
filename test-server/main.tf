@@ -52,3 +52,4 @@ resource "aws_eip" "myFirstEip" {
 }
 
 
+
