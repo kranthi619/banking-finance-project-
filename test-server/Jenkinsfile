@@ -1,16 +1,16 @@
 pipeline {
   agent any
-  
+
   tools {
     maven 'M2_HOME'
     terraform 'terraform'
   }
-  
+
   environment {
-    AWS_ACCESS_KEY_ID = "${Access_Key}"
-    AWS_SECRET_ACCESS_KEY = "${Secret_Key}"
+    AWS_ACCESS_KEY_ID = credentials('my-access-key')
+    AWS_SECRET_ACCESS_KEY = credentials('my-secret-key')
   }
-  
+
   stages {
     stage('Package the Application') {
       steps {
@@ -39,21 +39,21 @@ pipeline {
       }
     }
 
-    stage("set env variable") {
+    stage('Set Terraform Environment') {
       steps {
         sh 'export AWS_PROFILE=ilab'
       }
     }
-    
+
     stage('Get Directory') {
       steps {
-        println("${WORKSPACE}")
+        println(WORKSPACE)
       }
     }
-    
+
     stage('Terraform init') {
       steps {
-        sh 'terraform init'
+        sh 'cd /var/lib/jenkins/workspace/bank-pro/test-server && terraform init'
       }
     }
     
