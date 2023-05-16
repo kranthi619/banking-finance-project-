@@ -1,7 +1,7 @@
 provider "aws" {
   region     = "ap-south-1"
-  access_key = "AKIA3TGRI6WEC65Y4YXB"
-  secret_key = "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"
+  access_key = "AKIA3TGRI6WEF3VQQXVN"
+  secret_key = "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"
 }
 
 # Create a security group
