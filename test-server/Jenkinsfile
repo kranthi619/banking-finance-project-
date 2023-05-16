@@ -36,13 +36,15 @@ pipeline {
 
     stage('Set Terraform Environment') {
       steps {
-        sh 'export AWS_PROFILE=ilab'
+        withEnv(["AWS_PROFILE=ilab"]) {
+          sh 'echo "Terraform environment set"'
+        }
       }
     }
 
     stage('Get Directory') {
       steps {
-        println(WORKSPACE)
+        println(env.WORKSPACE)
       }
     }
 
@@ -51,21 +53,22 @@ pipeline {
         sh 'cd /var/lib/jenkins/workspace/bank-pro/test-server && terraform init'
       }
     }
-    stage('Terraform Apply') {
-  steps {
-    dir('terraform') {
-      withCredentials([[
-          $class: 'AmazonWebServicesCredentialsBinding',
-          credentialsId: "aws-jenkins",
-          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        sh 'terraform apply --auto-approve -var "aws_access_key=${AWS_ACCESS_KEY_ID}" -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" -var "aws_region=${aws_region}" -var "key_name=${key_name}" -var "instance_type=${instance_type}" -var "security_group=${security_group}" -var "tag_name=${tag_name}" -var "ami_id
 
-   
+    stage('Terraform Apply') {
+      steps {
+        withCredentials([[
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "aws-jenkins",
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+          dir('terraform') {
+            sh "terraform apply --auto-approve -var 'aws_access_key=${AWS_ACCESS_KEY_ID}' -var 'aws_secret_key=${AWS_SECRET_ACCESS_KEY}' -var 'aws_region=${aws_region}' -var 'key_name=${key_name}' -var 'instance_type=${instance_type}' -var 'security_group=${security_group}' -var 'tag_name=${tag_name}' -var 'ami_id=${ami_id}'"
+          }
         }
       }
     }
   }
 }
+
 
 
