@@ -3,11 +3,11 @@
   become: true
   connection : ssh
   tasks : 
-  - name: Updating yum
-    command : sudo yum update
+  - name: Updating apt
+    command : sudo apt update
 
   - name : Install Docker
-    command : sudo yum install docker -y
+    command : sudo apt install docker -y
 
   - name : Start Docker Service
     command : sudo systemctl start docker
