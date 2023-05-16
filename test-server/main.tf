@@ -6,7 +6,7 @@ resource "aws_instance" "test-server" {
   
   connection {
     type        = "ssh"
-    user        = "ubuntu"
+    user        = "jenkins"
     private_key = "/var/lib/jenkins/workspace/bank-pro/test-server/exampl.pem"
     host        = self.public_ip
   }
