@@ -62,7 +62,7 @@ pipeline {
             accessKeyVariable: 'AWS_ACCESS_KEY_ID',
             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
            dir('test-server'){
-                sh 'sudo chmod 600 exampl.pem'
+                sh 'sudo chmod 600 pu-ub.ppk'
                 sh 'terraform init'
                 sh 'terraform validate'
                 sh 'terraform apply --auto-approve'
