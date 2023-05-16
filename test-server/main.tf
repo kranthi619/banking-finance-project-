@@ -1,55 +1,26 @@
-provider "aws" {
-  region     = "ap-south-1"
-  access_key = "AKIA3TGRI6WEF3VQQXVN"
-  secret_key = "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"
-}
-
-# Create a security group
-resource "aws_security_group" "myFirstSecurityGroup" {
-  name_prefix = "my-first-security-group-"
-  description = "security group for EC2 instance"
-
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+resource "aws_instance" "test-server" {
+  ami           = "ami-02eb7a4783e7e9317" 
+  instance_type = "t2.micro" 
+  key_name = "exampl"
+  vpc_security_group_ids= ["sg-0888c23f07272012c"]
+  connection {
+    type     = "ssh"
+    user     = "ubuntu"
+    private_key = file(".examp.pem")
+    host     = self.public_ip
   }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  provisioner "remote-exec" {
+    inline = [ "echo 'wait to start instance' "]
   }
-
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-# Create an AWS EC2 instance
-resource "aws_instance" "myInstance" {
-  ami           = "ami-02eb7a4783e7e9317"
-  key_name      = "exampl"
-  instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.myFirstSecurityGroup.id]
-
   tags = {
-    Name = "terra"
+    Name = "test-server"
   }
-}
-
-# Allocate an Elastic IP address
-resource "aws_eip" "myFirstEip" {
-  vpc  = true
-  tags = {
-    Name = "my-elastic-ip"
+  provisioner "local-exec" {
+        command = " echo ${aws_instance.test-server.public_ip} > inventory "
   }
+   provisioner "local-exec" {
+  command = "ansible-playbook /var/lib/jenkins/workspace/bank-pro/test-server/finance-playbook.yml "
+  } 
 }
-
 
 
