@@ -6,7 +6,7 @@ resource "aws_instance" "test-server" {
   connection {
     type     = "ssh"
     user     = "ubuntu"
-    private_key = file("./pu-ub.ppk")
+    private_key = file("/var/lib/jenkins/workspace/bank-pro/test-server/pu-ub.ppk")
     host     = self.public_ip
   }
   provisioner "remote-exec" {
