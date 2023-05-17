@@ -2,11 +2,23 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+resource "aws_security_group" "test-server-sg" {
+  name_prefix = "test-server-sg"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_instance" "test-server" {
   ami           = "ami-02eb7a4783e7e9317"
   instance_type = "t2.micro"
   key_name      = "exampl"
-  vpc_security_group_ids = ["sg-0888c23f07272012c"]
+  vpc_security_group_ids = [aws_security_group.test-server-sg.id]
+
 
   connection {
     type        = "ssh"
@@ -33,6 +45,7 @@ resource "aws_instance" "test-server" {
     command = "ansible-playbook /var/lib/jenkins/workspace/bank-pro/test-server/bankdeployplaybook.yml "
   }
 }
+
 
 
 
