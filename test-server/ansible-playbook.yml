@@ -1,10 +1,13 @@
 - name : Configure Docker on EC2 Instances
   hosts : all
   become: true
-  connection : ssh
+ # connection : ssh
   tasks : 
   - name: updating apt
-    command : sudo apt-get update
+    command : sudo apt update
+    
+  - name: install Python
+    command : sudo apt install -y python-pip
 
   - name : Install Docker
     command : sudo apt-get install -y docker.io
@@ -15,8 +18,7 @@
     command : sudo systemctl start docker
     become : yes
     become_user : root
-
-    - name: Deploy Docker Container
-      shell: docker run -itd -p 8084:8081 kranthi619/finance-me:latest
+  - name : Deploy the image and Run as a container
+    command : docker run -itd -p 8084:8081 kranthi619/bankingapp:latest
 
 
