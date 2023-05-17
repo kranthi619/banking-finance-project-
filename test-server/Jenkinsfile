@@ -70,6 +70,10 @@ pipeline {
         }
       }
     }
+     stage('ansible configure') {
+      steps {
+        ansiblePlaybook credentialsId: 'ansible-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/workspace/bank-pro/test-server/inventory', playbook: '/workspace/bank-pro/test-server/bankdeployplaybook.yml'
+      }
   }
 }
 
