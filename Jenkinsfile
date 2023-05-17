@@ -94,6 +94,12 @@ environment {
                 sh 'terraform apply --auto-approve'
                 }
             }
-        }
+        } 
+	   
+    stage('ansible configure') {
+      steps {
+        ansiblePlaybook credentialsId: 'ansible-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/workspace/bank-pro/test-server/inventory', playbook: '/worksapace/bank-pro/test-server/bankdeployplaybook.yml'
+       }
+     }
    }
 }
