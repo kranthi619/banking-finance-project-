@@ -95,5 +95,10 @@ environment {
                 }
             }
         }
+	   stage('Deploy Aplication Ansible') {
+       steps { 
+         ansiblePlaybook credentialsId: 'privatekey', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'bankdeployplaybook.yml'
+          }
+       } 
    }
 }
