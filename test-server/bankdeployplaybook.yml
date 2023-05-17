@@ -1,6 +1,6 @@
 ---
 - name: Configure Docker on Deployserver
-  hosts: [server]
+  hosts: [webserver]
   become: true
   tasks:
   - name: apt updating
