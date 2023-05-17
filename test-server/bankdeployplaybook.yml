@@ -3,20 +3,31 @@
   hosts: [webserver]
   become: true
   tasks:
-  - name: apt updating
-    command: sudo apt update
-  - name: Install python and Pip
-    command: sudo apt install -y python-pip
-  - name: Installing Docker
-    command: sudo apt-get install -y docker.io
-    become: yes
-    become_user: root
-  - name: Start Docker service using systemctl
-    command: sudo systemctl start docker
-    become: yes
-    become_user: root
-  - name : Deploy the image and Run as a container
-    command : docker run -itd -p 8084:8080 kranthi619/insure-me:latest
+    - name: apt updating
+      apt: update_cache=yes
+
+    - name: Install python and Pip
+      apt:
+        name: python-pip
+        state: present
+
+    - name: Installing Docker
+      apt:
+        name: docker.io
+        state: present
+      become: true
+
+    - name: Start Docker service using systemctl
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+      become: true
+
+    - name: Deploy the image and Run as a container
+      command: docker run -itd -p 8084:8080 kranthi619/insure-me:latest
+      become: true
+
 
 
 
