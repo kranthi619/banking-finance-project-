@@ -1,24 +1,42 @@
-- name : Configure Docker on EC2 Instances
-  hosts : all
+---
+- name: Configure Docker on Deployserver
+  hosts: [webserver]
   become: true
- # connection : ssh
-  tasks : 
-  - name: updating apt
-    command : sudo apt update
-    
-  - name: install Python
-    command : sudo apt install -y python-pip
+  tasks:
+    - name: apt updating
+      apt: update_cache=yes
 
-  - name : Install Docker
-    command : sudo apt-get install -y docker.io
-    become : yes
-    become_user : root
+    - name: Install python and Pip
+      apt:
+        name: python-pip
+        state: present
 
-  - name : Start Docker Service
-    command : sudo systemctl start docker
-    become : yes
-    become_user : root
-  - name : Deploy the image and Run as a container
-    command : docker run -itd -p 8084:8081 kranthi619/bankingapp:latest
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+      become: true
+
+    - name: Start Docker service using systemctl
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+      become: true
+
+    - name: Deploy the image and Run as a container
+      command: docker run -itd -p 8084:8080 kranthi619/insure-me:latest
+      become: true
+
 
 
