@@ -70,12 +70,6 @@ pipeline {
         }
       }
     }
-
-    stage('ansible configure') {
-      steps {
-        ansiblePlaybook disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/bank-pro/test-server/inventory', playbook: '/var/lib/jenkins/workspace/bank-pro/test-server/bankdeployplaybook.yml'
-      }
-    }
   }
 }
 
