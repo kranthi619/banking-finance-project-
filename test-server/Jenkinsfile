@@ -73,7 +73,7 @@ pipeline {
 
     stage('ansible configure') {
       steps {
-        ansiblePlaybook credentialsId: 'ansi3', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/bank-pro/test-server/hosts', playbook: '/var/lib/jenkins/workspace/bank-pro/test-server/bankdeployplaybook.yml'
+        ansiblePlaybook disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/bank-pro/test-server/inventory', playbook: '/var/lib/jenkins/workspace/bank-pro/test-server/bankdeployplaybook.yml'
       }
     }
   }
