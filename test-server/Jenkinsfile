@@ -73,7 +73,7 @@ pipeline {
 
     stage('ansible configure') {
       steps {
-        ansiblePlaybook credentialsId: 'exampl', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/inventory', playbook: '/etc/ansible/ansible-playbook.yml'
+        ansiblePlaybook credentialsId: 'exampl', disableHostKeyChecking: true, installation: 'ansible', inventory: '/bank-pro/test-server/inventory', playbook: '/bank-pro/test-server/bankdeployplaybook.yml'
       }
     }
   }
