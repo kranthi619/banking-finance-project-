@@ -1,44 +1,18 @@
-resource "aws_security_group" "test-server-sg" {
-  name_prefix = "test-server-sg"
+resource "aws_instance" "production-server" {
+  ami                = "ami-02eb7a4783e7e9317"
+  instance_type      = "t2.micro"
+  availability_zone  = "ap-south-1b"
+  vpc_security_group_ids = [aws_security_group.sg-0f10d4bcd49b6d516]
+  key_name           = "pu-ub"
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_instance" "test-server" {
-  ami           = "ami-02eb7a4783e7e9317"
-  instance_type = "t2.micro"
-  key_name      = "pu-ub"
-  vpc_security_group_ids = [aws_security_group.test-server-sg.id]
-
-
-  connection {
-    type        = "ssh"
-    user        = "ubuntu"
-    private_key = file("exampl.pem")
-    host        = self.public_ip
+  tags = {
+    name = "ansible_instance"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "echo 'wait to start instance'",
+      "ansible-playbook bankdeployplaybook.yml"
     ]
-  }
-
-  tags = {
-    Name = "test-server"
-  }
-
-  provisioner "local-exec" {
-    command = "echo '${aws_instance.test-server.public_ip}' > inventory"
-  }
-
-  provisioner "local-exec" {
-    command = "ansible-playbook -i inventory /var/lib/jenkins/workspace/bank-pro/test-server/bankdeployplaybook.yml "
   }
 }
 
