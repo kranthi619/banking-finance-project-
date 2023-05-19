@@ -1,20 +1,26 @@
 pipeline {
   agent any
+  
   tools {
     maven 'M2_HOME'
     terraform 'terraform'
   }
-  stages{
-   stage('souece code'){
-      steps{
+  
+  stages {
+    stage('Source code') {
+      steps {
         git 'https://github.com/kranthi619/kranthi-pro2.git'
       }
-   }
-    stage('create infra structure'){
-      steps{
-         sh 'chmod 600 exampl.pem'
-         sh 'terraform init'
-         sh 'terraform validate'
-         sh 'terraform apply --auto-approve'
-          }
-        }
+    }
+    
+    stage('Create infrastructure') {
+      steps {
+        sh 'chmod 600 exampl.pem'
+        sh 'terraform init'
+        sh 'terraform validate'
+        sh 'terraform apply --auto-approve'
+      }
+    }
+  }
+}
+
