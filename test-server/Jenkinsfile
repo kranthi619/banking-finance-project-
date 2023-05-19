@@ -1,76 +1,20 @@
 pipeline {
   agent any
-
   tools {
     maven 'M2_HOME'
     terraform 'terraform'
   }
-
-  stages {
-    stage('Package the Application') {
-      steps {
-        echo "Packaging the Application"
-        sh 'mvn clean package'
+  stages{
+   stage('souece code'){
+      steps{
+        git 'https://github.com/kranthi619/kranthi-pro2.git'
       }
-    }
-
-    stage('Publish Reports using HTML') {
-      steps {
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/bank-pro/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-      }
-    }
-
-    stage('Docker Image Creation') {
-      steps {
-        sh 'docker build -t kranthi619/insure-me:latest .'
-      }
-    }
-
-    stage('Docker Login') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'Docker-Hub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-        }
-      }
-    }
-
-    stage('Set Terraform Environment') {
-      steps {
-        withEnv(["AWS_PROFILE=ilab"]) {
-          sh 'echo "Terraform environment set"'
-        }
-      }
-    }
-
-    stage('Get Directory') {
-      steps {
-        println(env.WORKSPACE)
-      }
-    }
-
-    stage('Terraform init') {
-      steps {
-        sh 'cd /var/lib/jenkins/workspace/bank-pro/test-server && terraform init'
-      }
-    }
-
-    stage('Terraform Apply') {
-      steps {
-        withCredentials([[
-            $class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: "aws-jenkins",
-            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-           dir('test-server'){
-                sh 'sudo chmod 600 exampl.pem'
-                sh 'terraform init'
-                sh 'terraform validate'
-                sh 'terraform apply --auto-approve'
+   }
+    stage('create infra structure'){
+      steps{
+         sh 'chmod 600 exampl.pem'
+         sh 'terraform init'
+         sh 'terraform validate'
+         sh 'terraform apply --auto-approve'
           }
         }
-      }
-    }
-  }
-}
-
-
