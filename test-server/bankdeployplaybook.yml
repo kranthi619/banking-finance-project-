@@ -15,6 +15,6 @@
       become: yes
       become_user: root 
     - name: Deploy the image and Run as a container
-      command: docker run -itd -p 8084:8080 kranthi619/insure-me
+      command: docker run -itd -p 8085:8081 kranthi619/insure-me
 
 
