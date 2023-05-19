@@ -1,16 +1,21 @@
 
 resource "aws_instance" "test-server" {
-  ami                = "ami-02eb7a4783e7e9317"
-  instance_type      = "t2.micro"
-  key_name           = "exampl"
+  ami                    = "ami-02eb7a4783e7e9317"
+  instance_type          = "t2.micro"
+  key_name               = "exampl"
   vpc_security_group_ids = ["sg-0dcfb1d7312730a94"]
+
   tags = {
     Name = "test-server"
   }
   
   provisioner "remote-exec" {
-    command = "sleep 60 && 'Instance ready'"
+    inline = [
+      "sleep 60",
+      "echo 'Instance ready'"
+    ]
   }
+
   connection {
     type        = "ssh"
     user        = "ubuntu"
