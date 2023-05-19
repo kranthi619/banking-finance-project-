@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "ap-south-1"
-}
-
 resource "aws_security_group" "test-server-sg" {
   name_prefix = "test-server-sg"
 
