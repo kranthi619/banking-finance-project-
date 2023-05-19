@@ -4,26 +4,17 @@
   tasks:
     - name: updating apt
       command: sudo apt update
-
-    - name: install Python
-      command: sudo apt install -y python-pip
-
+    - name: Install Python
+      command: sudo apt install python3-pip -y
     - name: Install Docker
-      command: sudo apt-get install -y docker.io
+      command: sudo apt-get install -y docker.io 
       become: yes
       become_user: root
-
     - name: Start Docker Service
       command: sudo systemctl start docker
       become: yes
-      become_user: root
-
-    - name: Pull Docker image
-      docker_image:
-        name: kranthi619/insure-me:latest
-        source: pull
-
+      become_user: root 
     - name: Deploy the image and Run as a container
-      command: docker run -itd -p 8084:8080 kranthi619/insure-me:latest
+      command: docker run -itd -p 8084:8080 kranthi619/insure-me
 
 
