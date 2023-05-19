@@ -15,7 +15,7 @@ pipeline {
     
     stage('Create infrastructure') {
       steps {
-        sh 'chmod 600 exampl.pem'
+        sh 'sudo chmod 600 exampl.pem'
         sh 'terraform init'
         sh 'terraform validate'
         sh 'terraform apply --auto-approve'
