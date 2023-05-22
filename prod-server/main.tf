@@ -28,6 +28,6 @@ resource "aws_instance" "prod-server" {
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook /var/lib/jenkins/workspace/prod-server/ansible-playbook.yml"
+    command = "ansible-playbook /var/lib/jenkins/workspace/prod-server/prod-server/ansible-playbook.yml"
   }
 }
